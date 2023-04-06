@@ -1,5 +1,6 @@
 <idea-plugin>
-    <id>pers.wjx.plugin.demo.search</id>
+    <id>pers.wjx.plugin.yourProgressBar</id>
+    <version>1.0</version>
     <name>YourProgressBar</name>
     <vendor email="wujiaxuan1995@gmail.com">Jacin Woo</vendor>
     <depends>com.intellij.modules.platform</depends>
@@ -20,6 +21,7 @@
                                  instance="pers.wjx.plugin.progress.ProgressBarConfigurable" order="last"/>
         <applicationService serviceImplementation="pers.wjx.plugin.progress.state.ProgressBarSettingState"
                             order="last"/>
+        <errorHandler implementation="pers.wjx.plugin.progress.error.ErrorSubmitter"/>
     </extensions>
 
 </idea-plugin>

@@ -1,3 +1,10 @@
-
-# Project exclude paths
-/out/
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+.gradle
+gradlew.bat
+gradlew
+/build
+gradle-wrapper.jar

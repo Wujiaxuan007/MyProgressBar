@@ -1,0 +1,25 @@
+<idea-plugin>
+    <id>pers.wjx.plugin.demo.search</id>
+    <name>YourProgressBar</name>
+    <vendor email="wujiaxuan1995@gmail.com">Jacin Woo</vendor>
+    <depends>com.intellij.modules.platform</depends>
+
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+
+    <actions>
+    </actions>
+    <applicationListeners>
+        <listener class="pers.wjx.plugin.progress.ProgressBarLafManagerListener"
+                  topic="com.intellij.ide.ui.LafManagerListener"/>
+    </applicationListeners>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable groupId="tools" id="panda" displayName="YourProgressBar"
+                                 instance="pers.wjx.plugin.progress.ProgressBarConfigurable" order="last"/>
+        <applicationService serviceImplementation="pers.wjx.plugin.progress.state.ProgressBarSettingState"
+                            order="last"/>
+    </extensions>
+
+</idea-plugin>

@@ -18,7 +18,7 @@ import java.util.List;
 public class SingleImageChooserDescriptor extends FileChooserDescriptor {
     private static final List<String> supportedExtensions = Arrays.asList(ImageIO.getReaderFormatNames());
 
-    private List<ImageIcon> icons = new ArrayList<>(2);
+    private final List<ImageIcon> icons = new ArrayList<>(2);
 
     public SingleImageChooserDescriptor() {
         super(true, false, false, false, false, false);

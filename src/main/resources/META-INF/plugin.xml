@@ -3,12 +3,18 @@
     <version>1.0</version>
     <name>YourProgressBar</name>
     <vendor email="wujiaxuan1995@gmail.com">Jacin Woo</vendor>
-    <depends>com.intellij.modules.platform</depends>
+    <idea-version since-build="211.*"/>
+    <description>
+        <![CDATA[
+       🐼 Use your imagination to design a progress bar that is unique to you.
+       <br>
+       By the way, default is a cute panda playing computer.
+      ]]>
+    </description>
 
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
     </extensions>
-
     <actions>
     </actions>
     <applicationListeners>

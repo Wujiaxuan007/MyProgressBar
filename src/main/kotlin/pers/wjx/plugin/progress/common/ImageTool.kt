@@ -31,7 +31,7 @@ object ImageTool {
         }
         if (minRight == width - 1 && minBottom == height - 1) {
             // 全透明
-            return Rectangle(0, 0, 0, 0);
+            return Rectangle(0, 0, 0, 0)
         }
         left@ while (left < minRight) {
             for (y in height - 1 downTo top + 1) {

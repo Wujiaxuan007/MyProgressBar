@@ -26,6 +26,7 @@ intellij {
             "com.intellij.java"
         )
     )
+    updateSinceUntilBuild.set(false)
 }
 
 tasks {
@@ -36,7 +37,6 @@ tasks {
     patchPluginXml {
         version.set("${project.version}")
         sinceBuild.set("192")
-        pluginDescription.set(file("./description.html").readText())
         changeNotes.set(file("./changeNodes.html").readText())
     }
 }

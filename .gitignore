@@ -1,5 +1,4 @@
 ### IntelliJ IDEA ###
-.idea/
 *.iws
 *.iml
 *.ipr
@@ -8,3 +7,4 @@ gradlew.bat
 gradlew
 /build
 gradle-wrapper.jar
+/.idea/

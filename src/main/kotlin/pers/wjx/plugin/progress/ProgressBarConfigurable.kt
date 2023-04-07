@@ -45,21 +45,20 @@ class ProgressBarConfigurable : Configurable {
         settings.useDefaultTrack = settingForm!!.useDefaultTrack
         settings.horizontalFlip = settingForm!!.horizontalFlip
         if (!ObjectUtils.isEmpty(settingForm!!.iconFile.get())
-            && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, settings.iconFilePath)
+            && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, settings.iconInfo.path)
         ) {
             try {
-                settings.iconFilePath = settingForm!!.iconFile.get().path
-                settings.iconInfo = ImageIconInfo(settings.iconFilePath!!, settingForm!!.icon)
+                settings.iconInfo =
+                    ImageIconInfo(settingForm!!.iconFile.get().path, settingForm!!.icon, settingForm!!.horizontalIcon)
             } catch (_: Exception) {
             }
         }
         if (!ObjectUtils.isEmpty(settingForm!!.trackFile.get())
-            && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, settings.trackFilePath)
+            && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, settings.trackInfo.path)
         ) {
             try {
-                settings.trackFilePath = settingForm!!.trackFile.get().path
                 settings.trackInfo = BufferedImageInfo(
-                    settings.trackFilePath!!,
+                    settingForm!!.trackFile.get().path,
                     IconUtil.toBufferedImage(settingForm!!.track)
                 )
             } catch (_: Exception) {
@@ -73,14 +72,14 @@ class ProgressBarConfigurable : Configurable {
         settingForm?.useDefaultTrack = settings.useDefaultTrack
         settingForm?.horizontalFlip = settings.horizontalFlip
 
-        if (ObjectUtils.isNotEmpty(settings.trackFilePath)) {
+        if (ObjectUtils.isNotEmpty(settings.trackInfo.path)) {
             val virtualFile =
-                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.trackFilePath!!))
+                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.trackInfo.path!!))
             settingForm?.trackFile!!.set(virtualFile)
         }
-        if (ObjectUtils.isNotEmpty(settings.iconFilePath)) {
+        if (ObjectUtils.isNotEmpty(settings.iconInfo.path)) {
             val virtualFile =
-                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.iconFilePath!!))
+                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.iconInfo.path!!))
             settingForm?.iconFile!!.set(virtualFile)
         }
     }

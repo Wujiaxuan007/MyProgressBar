@@ -5,4 +5,4 @@ import java.awt.image.BufferedImage
 /**
  * @author wjx
  */
-class BufferedImageInfo(var path: String, var bufferedImage: BufferedImage?)
+class BufferedImageInfo(var path: String?, var bufferedImage: BufferedImage?)

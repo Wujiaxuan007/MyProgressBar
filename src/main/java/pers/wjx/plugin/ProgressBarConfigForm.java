@@ -6,6 +6,7 @@ import com.intellij.openapi.ui.ComponentValidator;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.util.IconUtil;
 import com.intellij.util.ui.UI;
 import org.apache.commons.lang3.ObjectUtils;
 import pers.wjx.plugin.progress.common.Icons;
@@ -61,12 +62,12 @@ public class ProgressBarConfigForm {
         boolean modified = useDefaultIcon.isSelected() != setting.getUseDefaultIcon();
         modified |= useDefaultTrack.isSelected() != setting.getUseDefaultTrack();
         modified |= horizontalFlip.isSelected() != setting.getHorizontalFlip();
-        modified |= ObjectUtils.isEmpty(trackFile.get()) && ObjectUtils.isNotEmpty(setting.getTrackFilePath());
+        modified |= ObjectUtils.isEmpty(trackFile.get()) && ObjectUtils.isNotEmpty(setting.getTrackInfo().getPath());
         modified |= ObjectUtils.isNotEmpty(trackFile.get())
-                && ObjectUtils.notEqual(trackFile.get().getPath(), setting.getTrackFilePath());
+                && ObjectUtils.notEqual(trackFile.get().getPath(), setting.getTrackInfo().getPath());
 
         modified |= ObjectUtils.isNotEmpty(iconFile.get())
-                && ObjectUtils.notEqual(iconFile.get().getPath(), setting.getIconFilePath());
+                && ObjectUtils.notEqual(iconFile.get().getPath(), setting.getIconInfo().getPath());
         return modified;
     }
 
@@ -107,6 +108,13 @@ public class ProgressBarConfigForm {
         return iconLabel.getIcon();
     }
 
+    public Icon getHorizontalIcon() {
+        if (horizontalFlip.isSelected() && iconLabel.getIcon() != null) {
+            return IconUtil.flip(iconLabel.getIcon(), true);
+        }
+        return null;
+    }
+
     public Icon getTrack() {
         return trackLabel.getIcon();
     }
@@ -116,12 +124,12 @@ public class ProgressBarConfigForm {
      */
     private void initComponent() {
         ProgressBarSettingState setting = ProgressBarSettingState.Companion.getInstance();
-        if (ObjectUtils.isNotEmpty(setting.getTrackFilePath())) {
-            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(setting.getTrackFilePath()));
+        if (ObjectUtils.isNotEmpty(setting.getTrackInfo().getPath())) {
+            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(setting.getTrackInfo().getPath()));
             trackFile.set(virtualFile);
         }
-        if (ObjectUtils.isNotEmpty(setting.getIconFilePath())) {
-            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(setting.getIconFilePath()));
+        if (ObjectUtils.isNotEmpty(setting.getIconInfo().getPath())) {
+            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(setting.getIconInfo().getPath()));
             iconFile.set(virtualFile);
         }
         iconLabel.setIcon(setting.getIcon());
@@ -162,6 +170,7 @@ public class ProgressBarConfigForm {
                 }
             }
         });
+
         useDefaultIcon.addActionListener(l -> {
             if (useDefaultIcon.isSelected()) {
                 iconLabel.setIcon(Icons.INSTANCE.getPANDA());

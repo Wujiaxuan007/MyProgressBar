@@ -11,7 +11,7 @@ import javax.swing.ImageIcon
  * @author wjx
  */
 class BufferedImageConverter : Converter<BufferedImageInfo>() {
-    override fun toString(value: BufferedImageInfo): String {
+    override fun toString(value: BufferedImageInfo): String? {
         return value.path
     }
 

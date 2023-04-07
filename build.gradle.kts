@@ -36,7 +36,7 @@ tasks {
 
     patchPluginXml {
         version.set("${project.version}")
-        sinceBuild.set("192")
+        sinceBuild.set("211")
         changeNotes.set(file("./changeNodes.html").readText())
     }
 }

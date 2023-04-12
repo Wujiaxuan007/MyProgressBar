@@ -47,22 +47,16 @@ class ProgressBarConfigurable : Configurable {
         if (!ObjectUtils.isEmpty(settingForm!!.iconFile.get())
             && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, settings.iconInfo.path)
         ) {
-            try {
-                settings.iconInfo =
-                    ImageIconInfo(settingForm!!.iconFile.get().path, settingForm!!.icon, settingForm!!.horizontalIcon)
-            } catch (_: Exception) {
-            }
+            settings.iconInfo =
+                ImageIconInfo(settingForm!!.iconFile.get().path, settingForm!!.icon, settingForm!!.horizontalIcon)
         }
         if (!ObjectUtils.isEmpty(settingForm!!.trackFile.get())
             && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, settings.trackInfo.path)
         ) {
-            try {
-                settings.trackInfo = BufferedImageInfo(
-                    settingForm!!.trackFile.get().path,
-                    IconUtil.toBufferedImage(settingForm!!.track)
-                )
-            } catch (_: Exception) {
-            }
+            settings.trackInfo = BufferedImageInfo(
+                settingForm!!.trackFile.get().path,
+                IconUtil.toBufferedImage(settingForm!!.track)
+            )
         }
     }
 

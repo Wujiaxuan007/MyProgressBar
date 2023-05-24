@@ -11,12 +11,14 @@ import com.intellij.util.ui.UI;
 import org.apache.commons.lang3.ObjectUtils;
 import pers.wjx.plugin.progress.common.Icons;
 import pers.wjx.plugin.progress.common.ProgressBarBundle;
-import pers.wjx.plugin.progress.state.ProgressBarSettingState;
+import pers.wjx.plugin.progress.state.BufferedImageInfo;
+import pers.wjx.plugin.progress.state.ImageIconInfo;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,29 +48,13 @@ public class ProgressBarConfigForm {
     private final AtomicReference<VirtualFile> trackFile = new AtomicReference<>(null);
     private final AtomicReference<VirtualFile> iconFile = new AtomicReference<>(null);
 
-    public ProgressBarConfigForm() {
-        initComponent();
+    public ProgressBarConfigForm(ImageIconInfo iconInfo, BufferedImageInfo trackInfo, Icon icon,
+                                 BufferedImage track, boolean useDefaultIcon, boolean useDefaultTrack) {
+        initComponent(iconInfo, trackInfo, icon, track, useDefaultIcon, useDefaultTrack);
     }
 
     public JPanel getPanel() {
         return rootPane;
-    }
-
-    /**
-     * 配置是否更改
-     */
-    public boolean configChanged() {
-        ProgressBarSettingState setting = ProgressBarSettingState.Companion.getInstance();
-        boolean modified = useDefaultIcon.isSelected() != setting.getUseDefaultIcon();
-        modified |= useDefaultTrack.isSelected() != setting.getUseDefaultTrack();
-        modified |= horizontalFlip.isSelected() != setting.getHorizontalFlip();
-        modified |= ObjectUtils.isEmpty(trackFile.get()) && ObjectUtils.isNotEmpty(setting.getTrackInfo().getPath());
-        modified |= ObjectUtils.isNotEmpty(trackFile.get())
-                && ObjectUtils.notEqual(trackFile.get().getPath(), setting.getTrackInfo().getPath());
-
-        modified |= ObjectUtils.isNotEmpty(iconFile.get())
-                && ObjectUtils.notEqual(iconFile.get().getPath(), setting.getIconInfo().getPath());
-        return modified;
     }
 
     public Boolean getUseDefaultIcon() {
@@ -122,30 +108,30 @@ public class ProgressBarConfigForm {
     /**
      * 初始化组件
      */
-    private void initComponent() {
-        ProgressBarSettingState setting = ProgressBarSettingState.Companion.getInstance();
-        if (ObjectUtils.isNotEmpty(setting.getTrackInfo().getPath())) {
-            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(setting.getTrackInfo().getPath()));
+    private void initComponent(ImageIconInfo iconInfo, BufferedImageInfo trackInfo, Icon icon,
+                               BufferedImage track, boolean useDefaultIcon, boolean useDefaultTrack) {
+        if (ObjectUtils.isNotEmpty(trackInfo.getPath())) {
+            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(trackInfo.getPath()));
             trackFile.set(virtualFile);
         }
-        if (ObjectUtils.isNotEmpty(setting.getIconInfo().getPath())) {
-            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(setting.getIconInfo().getPath()));
+        if (ObjectUtils.isNotEmpty(iconInfo.getPath())) {
+            VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(iconInfo.getPath()));
             iconFile.set(virtualFile);
         }
-        iconLabel.setIcon(setting.getIcon());
-        if (ObjectUtils.isNotEmpty(setting.getTrack())) {
-            trackLabel.setIcon(new ImageIcon(setting.getTrack()));
+        iconLabel.setIcon(icon);
+        if (ObjectUtils.isNotEmpty(track)) {
+            trackLabel.setIcon(new ImageIcon(track));
         } else {
             trackLabel.setIcon(Icons.INSTANCE.getTRACK());
         }
-        useDefaultIcon.setSelected(setting.getUseDefaultIcon());
-        useDefaultTrack.setSelected(setting.getUseDefaultTrack());
-        addListener(setting);
+        this.useDefaultIcon.setSelected(useDefaultIcon);
+        this.useDefaultTrack.setSelected(useDefaultTrack);
+        addListener(icon, track);
         addTips();
         addComponentValidator();
     }
 
-    private void addListener(ProgressBarSettingState setting) {
+    private void addListener(Icon icon, BufferedImage track) {
         chooseBg.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -170,19 +156,18 @@ public class ProgressBarConfigForm {
                 }
             }
         });
-
         useDefaultIcon.addActionListener(l -> {
             if (useDefaultIcon.isSelected()) {
                 iconLabel.setIcon(Icons.INSTANCE.getPANDA());
             } else {
-                iconLabel.setIcon(setting.getIcon());
+                iconLabel.setIcon(icon);
             }
         });
         useDefaultTrack.addActionListener(l -> {
-            if (useDefaultTrack.isSelected() || setting.getTrack() == null) {
+            if (useDefaultTrack.isSelected()) {
                 trackLabel.setIcon(Icons.INSTANCE.getTRACK());
             } else {
-                trackLabel.setIcon(new ImageIcon(setting.getTrack()));
+                trackLabel.setIcon(new ImageIcon(track));
             }
         });
     }

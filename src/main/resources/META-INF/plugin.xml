@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>pers.wjx.plugin.yourProgressBar</id>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>YourProgressBar</name>
     <vendor email="wujiaxuan1995@gmail.com">Jacin Woo</vendor>
     <idea-version since-build="211.*"/>

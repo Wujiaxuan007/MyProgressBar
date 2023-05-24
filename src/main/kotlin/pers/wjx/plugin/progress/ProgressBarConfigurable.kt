@@ -1,6 +1,5 @@
 package pers.wjx.plugin.progress
 
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.util.IconUtil
@@ -22,21 +21,34 @@ class ProgressBarConfigurable : Configurable {
 
     companion object {
         const val PIXEL = 20.0
-        fun getInstance(): ProgressBarConfigurable {
-            return ApplicationManager.getApplication().getService(ProgressBarConfigurable::class.java)
-        }
     }
 
     override fun createComponent(): JComponent? {
-        settingForm = ProgressBarConfigForm()
+        val settings: ProgressBarSettingState = ProgressBarSettingState.getInstance()
+        settingForm = ProgressBarConfigForm(
+            settings.iconInfo,
+            settings.trackInfo,
+            settings.getIcon(),
+            settings.getTrack(),
+            settings.useDefaultIcon,
+            settings.useDefaultTrack
+        )
         return settingForm!!.panel
     }
 
     override fun isModified(): Boolean {
-        if (settingForm == null) {
-            settingForm = ProgressBarConfigForm()
-        }
-        return settingForm!!.configChanged()
+        val setting = ProgressBarSettingState.getInstance()
+        var modified = settingForm!!.useDefaultIcon != setting.useDefaultIcon
+        modified = modified or (settingForm!!.useDefaultTrack != setting.useDefaultTrack)
+        modified = modified or (settingForm!!.horizontalFlip != setting.horizontalFlip)
+        modified =
+            modified or (ObjectUtils.isEmpty(settingForm!!.trackFile.get()) && ObjectUtils.isNotEmpty(setting.trackInfo.path))
+        modified = modified or (ObjectUtils.isNotEmpty(settingForm!!.trackFile.get())
+                && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, setting.trackInfo.path))
+
+        modified = modified or (ObjectUtils.isNotEmpty(settingForm!!.iconFile.get())
+                && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, setting.iconInfo.path))
+        return modified
     }
 
     override fun apply() {

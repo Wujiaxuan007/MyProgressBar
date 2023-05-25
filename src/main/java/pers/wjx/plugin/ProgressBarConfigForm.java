@@ -164,7 +164,7 @@ public class ProgressBarConfigForm {
             }
         });
         useDefaultTrack.addActionListener(l -> {
-            if (useDefaultTrack.isSelected()) {
+            if (useDefaultTrack.isSelected() || track == null) {
                 trackLabel.setIcon(Icons.INSTANCE.getTRACK());
             } else {
                 trackLabel.setIcon(new ImageIcon(track));

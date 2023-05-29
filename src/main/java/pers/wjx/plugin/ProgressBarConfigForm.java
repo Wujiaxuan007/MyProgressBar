@@ -110,7 +110,7 @@ public class ProgressBarConfigForm {
      */
     private void initComponent(ImageIconInfo iconInfo, BufferedImageInfo trackInfo, Icon icon,
                                BufferedImage track, boolean useDefaultIcon, boolean useDefaultTrack) {
-        if (ObjectUtils.isNotEmpty(trackInfo.getPath())) {
+        if (trackInfo != null && ObjectUtils.isNotEmpty(trackInfo.getPath())) {
             VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(trackInfo.getPath()));
             trackFile.set(virtualFile);
         }

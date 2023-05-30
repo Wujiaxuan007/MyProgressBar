@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "pers.wjx.plugin.demo"
-version = "1.3"
+version = "1.4"
 
 repositories {
     mavenLocal()
@@ -17,6 +17,7 @@ java {
 }
 
 dependencies {
+    implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
 intellij {

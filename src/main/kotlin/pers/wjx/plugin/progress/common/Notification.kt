@@ -10,7 +10,7 @@ import com.intellij.openapi.project.Project
 object Notification {
     fun showWarning(content: String, project: Project?) {
         Notification(
-            ProgressBarBundle.message("your.progress.bar.display.name"),
+            "Your Progress Bar Group",
             ProgressBarBundle.message("your.progress.bar.display.name"), content, NotificationType.WARNING
         ).notify(project)
     }

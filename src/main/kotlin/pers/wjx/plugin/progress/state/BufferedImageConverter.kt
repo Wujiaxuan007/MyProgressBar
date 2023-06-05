@@ -2,6 +2,7 @@ package pers.wjx.plugin.progress.state
 
 import com.intellij.util.IconUtil
 import com.intellij.util.xmlb.Converter
+import pers.wjx.plugin.progress.common.InvokeUtils
 import pers.wjx.plugin.progress.common.Notification
 import pers.wjx.plugin.progress.common.ProgressBarBundle
 import java.io.File
@@ -17,7 +18,10 @@ class BufferedImageConverter : Converter<BufferedImageInfo>() {
 
     override fun fromString(value: String): BufferedImageInfo {
         if (!File(value).exists()) {
-            Notification.showWarning(ProgressBarBundle.message("img.cannot.found.use.default", value), null)
+            InvokeUtils.invokeLater(null) {
+                Notification.showWarning(ProgressBarBundle.message("img.cannot.found.use.default", value), null)
+                ProgressBarSettingState.getInstance().useDefaultTrack = true
+            }
             return BufferedImageInfo(value, null)
         }
         val imageIcon = ImageIcon(value)

@@ -52,7 +52,7 @@ public class ProgressBarUI extends BasicProgressBarUI {
         if (barRectWidth <= 0 || barRectHeight <= 0) {
             return;
         }
-        ProgressBarSettingState setting = ProgressBarSettingState.Companion.getInstance();
+        ProgressBarSettingState setting = ProgressBarSettingState.getInstance();
         g.setColor(new JBColor(Gray._240.withAlpha(50), Gray._128.withAlpha(50)));
         int w = c.getWidth();
         int h = c.getPreferredSize().height;
@@ -156,7 +156,7 @@ public class ProgressBarUI extends BasicProgressBarUI {
         g2.fill(new RoundRectangle2D.Float(off, off, w - 2f * off - off, h - 2f * off - off, R, R));
 
         g2.translate(0, -(c.getHeight() - h) / 2);
-        ProgressBarSettingState settingState = ProgressBarSettingState.Companion.getInstance();
+        ProgressBarSettingState settingState = ProgressBarSettingState.getInstance();
         if (settingState.getTrack() != null) {
             TexturePaint tp = new TexturePaint(settingState.getTrack(), new Rectangle2D.Double(0, 1, h - 2f * off - off, h - 2f * off - off));
             g2.setPaint(tp);

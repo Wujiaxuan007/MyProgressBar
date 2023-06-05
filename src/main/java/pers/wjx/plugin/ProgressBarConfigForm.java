@@ -114,7 +114,7 @@ public class ProgressBarConfigForm {
             VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(trackInfo.getPath()));
             trackFile.set(virtualFile);
         }
-        if (ObjectUtils.isNotEmpty(iconInfo.getPath())) {
+        if (iconInfo != null && ObjectUtils.isNotEmpty(iconInfo.getPath())) {
             VirtualFile virtualFile = VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(iconInfo.getPath()));
             iconFile.set(virtualFile);
         }

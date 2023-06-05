@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>pers.wjx.plugin.yourProgressBar</id>
-    <version>1.4</version>
+    <version>1.5</version>
     <name>YourProgressBar</name>
     <vendor email="wujiaxuan1995@gmail.com">Jacin Woo</vendor>
     <idea-version since-build="211.*"/>
@@ -23,10 +23,12 @@
     </applicationListeners>
 
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="Your Progress Bar Group" displayType="BALLOON"
+                           key="your.progress.bar.group.key" bundle="messages.ProgressBarBundle"/>
         <applicationConfigurable groupId="tools" id="panda" displayName="YourProgressBar"
                                  instance="pers.wjx.plugin.progress.ProgressBarConfigurable" order="last"/>
         <applicationService serviceImplementation="pers.wjx.plugin.progress.state.ProgressBarSettingState"
-                            order="last"/>
+                            order="first"/>
         <errorHandler implementation="pers.wjx.plugin.progress.error.ErrorSubmitter"/>
     </extensions>
 

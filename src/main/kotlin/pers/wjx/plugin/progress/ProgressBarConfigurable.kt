@@ -26,8 +26,8 @@ class ProgressBarConfigurable : Configurable {
     override fun createComponent(): JComponent? {
         val settings: ProgressBarSettingState = ProgressBarSettingState.getInstance()
         settingForm = ProgressBarConfigForm(
-            settings.iconInfo,
-            settings.trackInfo,
+            settings.getIconInfo(),
+            settings.getTrackInfo(),
             settings.getIcon(),
             settings.getTrack(),
             settings.useDefaultIcon,
@@ -42,12 +42,12 @@ class ProgressBarConfigurable : Configurable {
         modified = modified or (settingForm!!.useDefaultTrack != setting.useDefaultTrack)
         modified = modified or (settingForm!!.horizontalFlip != setting.horizontalFlip)
         modified =
-            modified or (ObjectUtils.isEmpty(settingForm!!.trackFile.get()) && ObjectUtils.isNotEmpty(setting.trackInfo.path))
+            modified or (ObjectUtils.isEmpty(settingForm!!.trackFile.get()) && ObjectUtils.isNotEmpty(setting.getTrackInfo().path))
         modified = modified or (ObjectUtils.isNotEmpty(settingForm!!.trackFile.get())
-                && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, setting.trackInfo.path))
+                && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, setting.getTrackInfo().path))
 
         modified = modified or (ObjectUtils.isNotEmpty(settingForm!!.iconFile.get())
-                && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, setting.iconInfo.path))
+                && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, setting.getIconInfo().path))
         return modified
     }
 
@@ -57,17 +57,20 @@ class ProgressBarConfigurable : Configurable {
         settings.useDefaultTrack = settingForm!!.useDefaultTrack
         settings.horizontalFlip = settingForm!!.horizontalFlip
         if (!ObjectUtils.isEmpty(settingForm!!.iconFile.get())
-            && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, settings.iconInfo.path)
+            && ObjectUtils.notEqual(settingForm!!.iconFile.get().path, settings.getIconInfo().path)
         ) {
-            settings.iconInfo =
+            settings.setIconInfo(
                 ImageIconInfo(settingForm!!.iconFile.get().path, settingForm!!.icon, settingForm!!.horizontalIcon)
+            )
         }
         if (!ObjectUtils.isEmpty(settingForm!!.trackFile.get())
-            && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, settings.trackInfo.path)
+            && ObjectUtils.notEqual(settingForm!!.trackFile.get().path, settings.getTrackInfo().path)
         ) {
-            settings.trackInfo = BufferedImageInfo(
-                settingForm!!.trackFile.get().path,
-                IconUtil.toBufferedImage(settingForm!!.track)
+            settings.setTrackInfo(
+                BufferedImageInfo(
+                    settingForm!!.trackFile.get().path,
+                    IconUtil.toBufferedImage(settingForm!!.track)
+                )
             )
         }
     }
@@ -78,14 +81,14 @@ class ProgressBarConfigurable : Configurable {
         settingForm?.useDefaultTrack = settings.useDefaultTrack
         settingForm?.horizontalFlip = settings.horizontalFlip
 
-        if (ObjectUtils.isNotEmpty(settings.trackInfo.path)) {
+        if (ObjectUtils.isNotEmpty(settings.getTrackInfo().path)) {
             val virtualFile =
-                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.trackInfo.path!!))
+                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.getIconInfo().path!!))
             settingForm?.trackFile!!.set(virtualFile)
         }
-        if (ObjectUtils.isNotEmpty(settings.iconInfo.path)) {
+        if (ObjectUtils.isNotEmpty(settings.getIconInfo().path)) {
             val virtualFile =
-                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.iconInfo.path!!))
+                VirtualFileManager.getInstance().refreshAndFindFileByNioPath(Path.of(settings.getIconInfo().path!!))
             settingForm?.iconFile!!.set(virtualFile)
         }
     }

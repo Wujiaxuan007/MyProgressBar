@@ -9,3 +9,7 @@
 ![ssww2](https://user-images.githubusercontent.com/41990342/230342469-b77f1400-745b-46a5-9267-6504184e89f3.gif)
 
 [wjx:intellij]: https://plugins.jetbrains.com/plugin/21417-yourprogressbar
+
+**Other**
+
+The default panda icon comes from: https://www.pinterest.com/pin/572027590162744044/

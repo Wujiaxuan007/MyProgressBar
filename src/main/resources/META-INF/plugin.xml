@@ -18,8 +18,14 @@
     <actions>
     </actions>
     <applicationListeners>
-        <listener class="pers.wjx.plugin.progress.ProgressBarLafManagerListener"
+        <listener class="pers.wjx.plugin.progress.ProgressBarListener"
                   topic="com.intellij.ide.ui.LafManagerListener"/>
+        <listener class="pers.wjx.plugin.progress.ProgressBarListener"
+                  topic="com.intellij.ide.plugins.DynamicPluginListener"/>
+        <listener class="pers.wjx.plugin.progress.ProgressBarListener"
+                  topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+
+
     </applicationListeners>
 
     <extensions defaultExtensionNs="com.intellij">

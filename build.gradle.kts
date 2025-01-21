@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "pers.wjx.plugin.demo"
-version = "1.6"
+version = "1.7"
 
 repositories {
     mavenLocal()
